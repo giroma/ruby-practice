@@ -12,6 +12,11 @@
 # 1 3 N
 # 5 1 E
 
+# Behaviour
+#   read instructions
+#   move
+#   turn
+
 class Rover
   def initialize(x,y,d)
     @x = x
@@ -19,10 +24,20 @@ class Rover
     @d = d
   end
 
-  def read
+  def location
     return @x,@y,@d
+  end
+
+  def read(instructions)
+    instructions.each_char do |char|
+      case char
+      when 'L' then left
+      when 'R' then right
+      when 'M' then move
+      end
+    end
   end
 end
 
 rover1 = Rover.new(3,4,'N')
-p rover1.read
+p rover1.location
