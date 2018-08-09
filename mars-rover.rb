@@ -25,6 +25,7 @@ class Rover
     @y = position[2].to_i
     d  = position[4]
 
+    # convert direction to a number
     case d
     when 'N' then @d = 0
     when 'E' then @d = 1
@@ -36,6 +37,7 @@ class Rover
   def location
     # convert number back to letter of direction
     d = @@dir[@d%4]
+
     return "#{@x} #{@y} #{d}"
   end
 
@@ -59,7 +61,34 @@ class Rover
   end
 end
 
-rover1 = Rover.new('3 3 E')
-p rover1.location
-rover1.read('MMRMMRMRRM')
-p rover1.location
+input = '5 5
+1 2 N
+LMLMLMLMM
+3 3 E
+MMRMMRMRRM'
+
+def rover_calculation(input)
+  max_x = nil
+  max_y = nil
+  rover = nil
+
+  input.each_line.with_index do |line, index|
+    if index == 0
+      max_x = line[0]
+      max_y = line[2]
+    elsif index%2 == 1
+      rover = Rover.new(line)
+    else
+      rover.read(line)
+      p rover.location
+    end
+  end
+end
+
+rover_calculation(input)
+
+
+# rover1 = Rover.new('3 3 E')
+# p rover1.location
+# rover1.read('MMRMMRMRRM')
+# p rover1.location
