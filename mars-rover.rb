@@ -18,9 +18,13 @@
 #   turn
 
 class Rover
-  def initialize(x,y,d)
-    @x = x
-    @y = y
+  @@dir = ['N','E','S','W']
+
+  def initialize(position)
+    @x = position[0].to_i
+    @y = position[2].to_i
+    d  = position[4]
+
     case d
     when 'N' then @d = 0
     when 'E' then @d = 1
@@ -30,9 +34,9 @@ class Rover
   end
 
   def location
-    dir = ['N','E','S','W']
-    d = dir[@d%4]
-    return @x,@y,d
+    # convert number back to letter of direction
+    d = @@dir[@d%4]
+    return "#{@x} #{@y} #{d}"
   end
 
   def read(instructions)
@@ -44,6 +48,7 @@ class Rover
       end
     end
   end
+
   def move
     case @d%4
     when 0 then @y += 1
@@ -54,7 +59,7 @@ class Rover
   end
 end
 
-rover1 = Rover.new(3,3,'E')
+rover1 = Rover.new('3 3 E')
 p rover1.location
 rover1.read('MMRMMRMRRM')
 p rover1.location
