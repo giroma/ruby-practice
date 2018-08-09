@@ -37,6 +37,20 @@ class Rover
       end
     end
   end
+  def left
+    #code
+  end
+  def right
+    #code
+  end
+  def move
+    case @d
+    when 'N' then @y += 1
+    when 'E' then @x += 1
+    when 'S' then @y -= 1
+    when 'W' then @x -= 1
+    end
+  end
 end
 
 rover1 = Rover.new(3,4,'N')
