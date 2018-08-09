@@ -21,37 +21,40 @@ class Rover
   def initialize(x,y,d)
     @x = x
     @y = y
-    @d = d
+    case d
+    when 'N' then @d = 0
+    when 'E' then @d = 1
+    when 'S' then @d = 2
+    when 'W' then @d = 3
+    end
   end
 
   def location
-    return @x,@y,@d
+    dir = ['N','E','S','W']
+    d = dir[@d%4]
+    return @x,@y,d
   end
 
   def read(instructions)
     instructions.each_char do |char|
       case char
-      when 'L' then left
-      when 'R' then right
+      when 'L' then @d -= 1
+      when 'R' then @d += 1
       when 'M' then move
       end
     end
   end
-  def left
-    #code
-  end
-  def right
-    #code
-  end
   def move
-    case @d
-    when 'N' then @y += 1
-    when 'E' then @x += 1
-    when 'S' then @y -= 1
-    when 'W' then @x -= 1
+    case @d%4
+    when 0 then @y += 1
+    when 1 then @x += 1
+    when 2 then @y -= 1
+    when 3 then @x -= 1
     end
   end
 end
 
-rover1 = Rover.new(3,4,'N')
+rover1 = Rover.new(3,3,'E')
+p rover1.location
+rover1.read('MMRMMRMRRM')
 p rover1.location
