@@ -36,9 +36,9 @@ class Rover
     end
   end
 
-  def self.set_max(x,y)
-    @@max_x = x.to_i
-    @@max_y = y.to_i
+  def self.set_max(max)
+    @@max_x = max[0].to_i
+    @@max_y = max[2].to_i
   end
 
   def location
@@ -66,6 +66,7 @@ class Rover
     when 3 then @x -= 1
     end
 
+    # check for movement outside grid and raise exception
     if @x < 0 || @x > @@max_x || @y < 0 || @x > @@max_y
       raise 'Error, improper movement: outside of grid'
     end
@@ -85,9 +86,11 @@ def rover_calculation(input)
 
   input.each_line.with_index do |line, index|
     if index == 0
-      Rover.set_max(line[0], line[2])
+      Rover.set_max(line)
+    # odd
     elsif index%2 == 1
       rover = Rover.new(line)
+    # even
     else
       rover.read(line)
       p rover.location
