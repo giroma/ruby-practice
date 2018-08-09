@@ -19,6 +19,8 @@
 
 class Rover
   @@dir = ['N','E','S','W']
+  @@max_x = nil
+  @@max_y = nil
 
   def initialize(position)
     @x = position[0].to_i
@@ -32,6 +34,11 @@ class Rover
     when 'S' then @d = 2
     when 'W' then @d = 3
     end
+  end
+
+  def self.set_max(x,y)
+    @@max_x = x.to_i
+    @@max_y = y.to_i
   end
 
   def location
@@ -58,6 +65,10 @@ class Rover
     when 2 then @y -= 1
     when 3 then @x -= 1
     end
+
+    if @x < 0 || @x > @@max_x || @y < 0 || @x > @@max_y
+      raise 'Error, improper movement: outside of grid'
+    end
   end
 end
 
@@ -65,17 +76,16 @@ input = '5 5
 1 2 N
 LMLMLMLMM
 3 3 E
-MMRMMRMRRM'
+MMRMMRMRRM
+2 2 N
+MMRMMR'
 
 def rover_calculation(input)
-  max_x = nil
-  max_y = nil
   rover = nil
 
   input.each_line.with_index do |line, index|
     if index == 0
-      max_x = line[0]
-      max_y = line[2]
+      Rover.set_max(line[0], line[2])
     elsif index%2 == 1
       rover = Rover.new(line)
     else
